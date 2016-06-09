@@ -19,7 +19,9 @@ public class ScentysServiceImpl implements ScentysService{
 		if(token.equals("testToken")) {
 			String command = "PlayFragrance 0";
 			String host = request.getServletContext().getInitParameter("scentys-host");
-			ScentysUtil.sendCommand(command, host);
+			boolean flag = ScentysUtil.sendCommand(command, host);
+			if(!flag) 
+				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		} else {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		}
@@ -33,7 +35,9 @@ public class ScentysServiceImpl implements ScentysService{
 		if(token.equals("testToken") && type >= 1 && type <= 4) {
 			String command = "PlayFragrance " + type;
 			String host = request.getServletContext().getInitParameter("scentys-host");
-			ScentysUtil.sendCommand(command, host);
+			boolean flag = ScentysUtil.sendCommand(command, host);
+			if(!flag)
+				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		} else {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		}
@@ -47,7 +51,9 @@ public class ScentysServiceImpl implements ScentysService{
 		if(token.equals("testToken") && type >= 1 && type <= 6) {
 			String command = "SetBlower " + type;
 			String host = request.getServletContext().getInitParameter("scentys-host");
-			ScentysUtil.sendCommand(command, host);
+			boolean flag = ScentysUtil.sendCommand(command, host);
+			if(!flag) 
+				dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		} else {
 			dataWrapper.setErrorCode(ErrorCodeEnum.Error);
 		}
