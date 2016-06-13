@@ -19,24 +19,35 @@ import com.cdi.websocket.client.MyClient;
 @RequestMapping(value="api/")
 public class TestController {
 
+//    @RequestMapping(value="test",method= RequestMethod.GET)
+//    @ResponseBody
+//    public void login(
+//
+//            @RequestParam(value = "photo", required = true) String photo
+//    ) throws IOException {
+//    	
+//    	WebSocketContainer container = ContainerProvider.getWebSocketContainer();  
+//    	   
+//        String uri = "ws://localhost:8080/CDI/websocket/webservice";  
+//        System.out.println("Connecting to " + uri);  
+//        Session session = null;
+//        try {  
+//        	session = container.connectToServer(MyClient.class, URI.create(uri));  
+//        } catch (Exception e) {  
+//            e.printStackTrace();  
+//        }
+//        session.getBasicRemote().sendText(photo);
+//        session.close();
+//    }
+    
     @RequestMapping(value="test",method= RequestMethod.GET)
     @ResponseBody
-    public void login(
+    public String test(
 
-            @RequestParam(value = "photo", required = true) String photo
-    ) throws IOException {
+            @RequestParam(value = "distance", required = false) String distance
+    ) {
+    	System.out.println(distance  + "&111");
+    	return "asd";
     	
-    	WebSocketContainer container = ContainerProvider.getWebSocketContainer();  
-    	   
-        String uri = "ws://localhost:8080/CDI/websocket/webservice";  
-        System.out.println("Connecting to " + uri);  
-        Session session = null;
-        try {  
-        	session = container.connectToServer(MyClient.class, URI.create(uri));  
-        } catch (Exception e) {  
-            e.printStackTrace();  
-        }
-        session.getBasicRemote().sendText(photo);
-        session.close();
     }
 }

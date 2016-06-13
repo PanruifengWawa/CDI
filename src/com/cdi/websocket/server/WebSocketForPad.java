@@ -42,7 +42,6 @@ public class WebSocketForPad {
     		try {
 				session.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
     		return;
@@ -82,18 +81,7 @@ public class WebSocketForPad {
 			e1.printStackTrace();
 			return;
 		}
-        String toList = CommadEnume.parse(cmd);
-        System.out.println("发送列表： " + toList);
-        for(WebSocketForPad item: webSocketSet) {
-        	if(!toList.contains(item.getId()))
-        		continue;
-            try {
-                item.sendMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-                continue;
-            }
-        }
+        handle(cmd,message);
     }
      
     /**
@@ -116,7 +104,20 @@ public class WebSocketForPad {
         this.session.getBasicRemote().sendText(message);
         //this.session.getAsyncRemote().sendText(message);
     }
- 
+
+    public static void sendMessageTo(String message,String toList) {
+      System.out.println("发送消息: " + message + " 发送列表： " + toList);
+      for(WebSocketForPad item: webSocketSet) {
+    	  if(!toList.contains(item.getId()))
+      		continue;
+          try {
+              item.sendMessage(message);
+          } catch (IOException e) {
+              e.printStackTrace();
+              continue;
+          }
+      }
+    }
     public static synchronized int getOnlineCount() {
         return onlineCount;
     }
@@ -136,6 +137,21 @@ public class WebSocketForPad {
 	public void setId(String id) {
 		this.id = id;
 	}
-    
+    public void handle(int cmd,String message) {
+//    	CommadEnume commadEnume = CommadEnume.parse(cmd);
+//    	switch (commadEnume) {
+//		case M1: case M2: case M3: case M4: case M5: case M6: case M7: case M8:
+//			System.out.println("音乐相关类命令，命令内容:" + message);
+//			sendMessageTo(message,"music");
+//			break;
+//		case R1: case R2: case R3: case R4: case R5: case R6:
+//			System.out.println("电台相关类命令，命令内容:" + message);
+//			sendMessageTo(message,"radio");
+//			break;
+//		default:
+//			break;
+//		}
+    	
+    }
     
 }
