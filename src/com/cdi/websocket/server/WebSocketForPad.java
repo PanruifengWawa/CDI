@@ -13,6 +13,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cdi.web.enums.CommadEnume;
+import com.cdi.web.utils.ScentysUtil;
+
+
 
  
 //该注解用来指定一个URI，客户端可以通过这个URI来连接到WebSocket。类似Servlet的注解mapping。无需在web.xml中配置。
@@ -70,18 +73,48 @@ public class WebSocketForPad {
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message + " 现有连接数量：" + webSocketSet.size());
-        //群发消息
-        JSONObject json = null;
-        Integer cmd = null;
         try {
-			json = new JSONObject(message);
-			cmd = json.getInt("cmd");
+			JSONObject json = new JSONObject(message);
+			int cmd = json.getInt("cmd");
+			CommadEnume commadEnume = CommadEnume.parse(cmd);
+			//运行香氛
+			switch (commadEnume) {
+			case PlayScentys:
+				int scentyType = json.getJSONObject("message").getInt("scentyType");
+				if(scentyType >= 0 && scentyType <= 4) {
+					boolean flag = ScentysUtil.sendCommand("PlayFragrance " + scentyType, "localhost");
+					System.out.println(flag ? "成功有运行香氛" : "香氛连接错误");
+				} else {
+					System.out.println("scentyType值错误,值为" + scentyType);
+				}
+				break;
+			case ScentysIntensity :
+				int scentyIntensity = json.getJSONObject("message").getInt("scentyIntensity");
+				if(scentyIntensity >= 1 && scentyIntensity <= 6) {
+					boolean flag = ScentysUtil.sendCommand("SetBlower " + scentyIntensity, "localhost");
+					System.out.println(flag ? "成功有设置香氛强度" : "香氛连接错误");
+				} else {
+					System.out.println("scentyIntensity值错误,值为" + scentyIntensity);
+				}
+				break;
+			default:
+				break;
+			}
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			return;
 		}
-        handle(cmd,message);
+        
+        //群发消息
+        for(WebSocketForPad item: webSocketSet) {
+            try {
+                item.sendMessage(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
     }
      
     /**
@@ -137,7 +170,7 @@ public class WebSocketForPad {
 	public void setId(String id) {
 		this.id = id;
 	}
-    public void handle(int cmd,String message) {
+//    public void handle(int cmd,String message) {
 //    	CommadEnume commadEnume = CommadEnume.parse(cmd);
 //    	switch (commadEnume) {
 //		case M1: case M2: case M3: case M4: case M5: case M6: case M7: case M8:
@@ -151,7 +184,7 @@ public class WebSocketForPad {
 //		default:
 //			break;
 //		}
-    	
-    }
+//    	
+//    }
     
 }
