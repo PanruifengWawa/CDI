@@ -68,8 +68,10 @@ public class WebSocketForPad {
 				if(scentyType >= 0 && scentyType <= 4) {
 					boolean flag = ScentysUtil.sendCommand("PlayFragrance " + scentyType, "localhost");
 					System.out.println(flag ? "Succeed in playing fragrance!" : "Fragrance connection error!");
+					if(!flag) return;
 				} else {
 					System.out.println("ScentyType error :" + scentyType);
+					return;
 				}
 				break;
 			case ScentysIntensity :
@@ -77,8 +79,10 @@ public class WebSocketForPad {
 				if(scentyIntensity >= 1 && scentyIntensity <= 6) {
 					boolean flag = ScentysUtil.sendCommand("SetBlower " + scentyIntensity, "localhost");
 					System.out.println(flag ? "Succeed in setting blower!" : "Fragrance connection error!");
+					if(!flag) return;
 				} else {
 					System.out.println("ScentyIntensity error :" + scentyIntensity);
+					return;
 				}
 				break;
 			default:
