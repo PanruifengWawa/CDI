@@ -102,7 +102,7 @@ public class WebSocketForPad {
             }
         }
     }
-     
+    
     @OnError
     public void onError(Session session, Throwable error){
         System.out.println("Conntion Error!");
